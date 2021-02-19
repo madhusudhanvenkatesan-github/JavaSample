@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: struts2sample1-deployment
+  labels:
+    app: struts2sample1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: struts2sample1
+  template:
+    metadata:
+      labels:
+        app: struts2sample1
+    spec:
+      containers:
+        - name: struts2sample1
+          image: 161342106387.dkr.ecr.ap-southeast-1.amazonaws.com/fego-test/struts2sample1:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 3
+            timeoutSeconds: 1
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+        beta.kubernetes.io/arch: amd64
